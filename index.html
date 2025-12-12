@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Hafsa!</title>
+    <style>
+        /* 
+         * ==========================================
+         * CORE VARIABLES & RESET
+         * Edit colors here to change the theme!
+         * ==========================================
+         */
+        :root {
+            --bg-gradient-1: #ff9a9e;
+            --bg-gradient-2: #fad0c4;
+            --bg-gradient-3: #fad0c4;
+            --primary-color: #ff4081;
+            --text-glow: #fff;
+            --cake-color: #fce4ec;
+            --icing-color: #f8bbd0;
+            --candle-color: #ffeb3b;
+            --flame-color: #ff9800;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(120deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 100%);
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent scrollbar from floating elements */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* ==========================================
+         * FLOATING HEARTS BACKGROUND
+         * ==========================================
+         */
+        .heart-bg {
+            position: absolute;
+            bottom: -10px;
+            background-color: rgba(255, 255, 255, 0.6);
+            width: 20px;
+            height: 20px;
+            transform: rotate(45deg);
+            animation: floatUp 8s linear infinite;
+            z-index: 0;
+        }
+        
+        .heart-bg::before, .heart-bg::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+        }
+        .heart-bg::before { top: -10px; left: 0; }
+        .heart-bg::after { top: 0; left: -10px; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(45deg) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(45deg) scale(1.2); opacity: 0; }
+        }
+
+        /* ==========================================
+         * MAIN CONTAINER
+         * ==========================================
+         */
+        .container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        /* Heading Style */
+        h1 {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        /* ==========================================
+         * DECORATIONS (CSS ART)
+         * ==========================================
+         */
+        
+        /* Balloons */
+        .balloon-container {
+            position: absolute;
+            top: -50px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        .balloon {
+            width: 60px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            position: relative;
+            animation: sway 3s ease-in-out infinite alternate;
+        }
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 2px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .b1 { background: #ff7eb3; left: 10%; animation-delay: 0s; }
+        .b2 { background: #ffb88c; right: 10%; animation-delay: 1s; }
+
+        @keyframes sway {
+            from { transform: rotate(-5deg); }
+            to { transform: rotate(5deg); }
+        }
+
+        /* Teddy Bear Holding Gift (CSS Art) */
+        .teddy-container {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 80px;
+            height: 100px;
+            display: none; /* Shown via JS logic or Media Query if needed, sticking to layout */
+        }
+        /* Mobile responsive teddy placement is tricky, so we integrate it near the cake */
+        
+        /* ==========================================
+         * THE CAKE (CSS ART)
+         * ==========================================
+         */
+        .cake-stage {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .plate {
+            width: 280px;
+            height: 10px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: absolute;
+            bottom: 0;
+        }
+
+        .cake {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Cake Layers */
+        .layer {
+            width: 100%;
+            height: 50px;
+            background: var(--cake-color);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: inset 0 -5px 5px rgba(0,0,0,0.05);
+            transition: transform 0.5s ease;
+        }
+
+        .layer-top {
+            width: 200px;
+            z-index: 3;
+            background: var(--icing-color);
+            border-bottom: 5px solid rgba(0,0,0,0.05);
+        }
+        .layer-middle {
+            width: 200px;
+            z-index: 2;
+        }
+        .layer-bottom {
+            width: 200px;
+            z-index: 1;
+        }
+
+        /* Icing Drips */
+        .icing-drip {
+            position: absolute;
+            top: 40px;
+            width: 20px;
+            height: 20px;
+            background: var(--icing-color);
+            border-radius: 0 0 20px 20px;
+        }
+        .d1 { left: 20px; height: 25px; }
+        .d2 { left: 60px; height: 15px; }
+        .d3 { left: 100px; height: 30px; }
+        .d4 { left: 140px; height: 20px; }
+
+        /* Candles */
+        .candles {
+            position: absolute;
+            top: -30px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 4;
+        }
+
+        .candle {
+            width: 10px;
+            height: 40px;
+            background: linear-gradient(to bottom, #fff, var(--candle-color));
+            position: relative;
+        }
+
+        .flame {
+            width: 12px;
+            height: 18px;
+            background: var(--flame-color);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            top: -18px;
+            left: -1px;
+            box-shadow: 0 0 10px var(--flame-color);
+            animation: flicker 1s infinite alternate;
+            transform-origin: bottom center;
+        }
+
+        /* Smoke effect (hidden initially) */
+        .smoke {
+            width: 10px;
+            height: 20px;
+            background: rgba(100, 100, 100, 0.2);
+            position: absolute;
+            top: -20px;
+            left: 0;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0;
+            transform: translateY(0);
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); opacity: 1; }
+            100% { transform: scale(1.1) rotate(2deg); opacity: 0.8; }
+        }
+
+        @keyframes smokeRise {
+            0% { opacity: 0.8; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(3); }
+        }
+
+        /* Cut Animation Classes */
+        .cut-slice {
+            transform: translate(30px, -10px) rotate(5deg) !important;
+            filter: brightness(0.95);
+        }
+
+        /* Knife */
+        .knife {
+            position: absolute;
+            top: -100px;
+            right: 0;
+            width: 10px;
+            height: 150px;
+            background: silver;
+            border-radius: 0 0 5px 5px;
+            z-index: 10;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        .knife::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -5px;
+            width: 20px;
+            height: 40px;
+            background: #555;
+            border-radius: 5px;
+        }
+
+        /* ==========================================
+         * TEDDY BEAR (CSS)
+         * ==========================================
+         */
+        .teddy {
+            position: absolute;
+            right: -20px;
+            bottom: 0;
+            width: 80px;
+            height: 100px;
+            z-index: 5;
+        }
+        .ear {
+            position: absolute;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            background: #8d6e63;
+            border-radius: 50%;
+        }
+        .ear.left { left: 5px; }
+        .ear.right { right: 5px; }
+        .face {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 60px;
+            height: 55px;
+            background: #a1887f;
+            border-radius: 50%;
+            z-index: 2;
+        }
+        .eye {
+            position: absolute;
+            top: 18px;
+            width: 8px;
+            height: 8px;
+            background: #333;
+            border-radius: 50%;
+        }
+        .eye.l { left: 15px; }
+        .eye.r { right: 15px; }
+        .muzzle {
+            position: absolute;
+            bottom: 10px;
+            left: 18px;
+            width: 24px;
+            height: 18px;
+            background: #d7ccc8;
+            border-radius: 15px;
+        }
+        .nose {
+            position: absolute;
+            top: 4px;
+            left: 8px;
+            width: 8px;
+            height: 6px;
+            background: #4e342e;
+            border-radius: 50%;
+        }
+        .body {
+            position: absolute;
+            bottom: 0;
+            left: 15px;
+            width: 50px;
+            height: 50px;
+            background: #a1887f;
+            border-radius: 40% 40% 10% 10%;
+            z-index: 1;
+        }
+        .gift-box {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: #ff4081;
+            z-index: 6;
+            border: 2px solid #c51162;
+        }
+        .gift-ribbon {
+            position: absolute;
+            top: 0;
+            left: 18px;
+            width: 4px;
+            height: 40px;
+            background: #ffeb3b;
+        }
+        .gift-ribbon.hor {
+            top: 18px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+        }
+
+        /* ==========================================
+         * BUTTONS
+         * ==========================================
+         */
+        .controls {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #blowBtn {
+            background: linear-gradient(45deg, #ff9966, #ff5e62);
+        }
+
+        #cutBtn {
+            background: linear-gradient(45deg, #8e2de2, #4a00e0);
+        }
+
+        /* ==========================================
+         * POP-UP MODAL
+         * ==========================================
+         */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 25px;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            h1 { font-size: 2rem; }
+            .cake-stage { transform: scale(0.8); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Pop-Up Message -->
+    <div class="modal-overlay" id="startModal">
+        <div class="modal-content">
+            <h2>🎉 Surprise! 🎉</h2>
+            <p>Hey Hafsa! <br>Wishing you a day filled with love, laughter, and everything nice. <br>Ready to celebrate?</p>
+            <button class="close-btn" onclick="closeModal()">Let's Party!</button>
+        </div>
+    </div>
+
+    <!-- Floating Background -->
+    <div id="heartsContainer"></div>
+
+    <div class="container">
+        <!-- Floating Balloons CSS Art -->
+        <div class="balloon-container">
+            <div class="balloon b1"></div>
+            <div class="balloon b2"></div>
+        </div>
+
+        <h1>✨ Happy Birthday, Hafsa! 💖</h1>
+        
+        <!-- The Cake Stage -->
+        <div class="cake-stage">
+            
+            <!-- Hidden Knife -->
+            <div class="knife" id="knife"></div>
+
+            <!-- The Cake -->
+            <div class="cake" id="cake">
+                <div class="candles">
+                    <div class="candle">
+                        <div class="flame" id="f1"></div>
+                        <div class="smoke" id="s1"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="flame" id="f2"></div>
+                        <div class="smoke" id="s2"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="flame" id="f3"></div>
+                        <div class="smoke" id="s3"></div>
+                    </div>
+                </div>
+
+                <div class="layer layer-top">
+                    <div class="icing-drip d1"></div>
+                    <div class="icing-drip d2"></div>
+                    <div class="icing-drip d3"></div>
+                    <div class="icing-drip d4"></div>
+                </div>
+                <div class="layer layer-middle"></div>
+                <div class="layer layer-bottom"></div>
+            </div>
+
+            <div class="plate"></div>
+
+            <!-- Teddy Bear CSS Art -->
+            <div class="teddy">
+                <div class="ear left"></div>
+                <div class="ear right"></div>
+                <div class="face">
+                    <div class="eye l"></div>
+                    <div class="eye r"></div>
+                    <div class="muzzle"></div>
+                    <div class="nose"></div>
+                </div>
+                <div class="body"></div>
+                <!-- Gift Box -->
+                <div class="gift-box">
+                    <div class="gift-ribbon"></div>
+                    <div class="gift-ribbon hor"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="blowBtn" onclick="blowCandles()">🌬️ Blow Candle</button>
+            <button id="cutBtn" onclick="cutCake()">🔪 Cut Cake</button>
+        </div>
+    </div>
+
+    <script>
+        /*
+         * ==========================================
+         * JAVASCRIPT LOGIC
+         * ==========================================
+         */
+
+        // 1. Generate Floating Hearts Background
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            const heartCount = 20; // Number of hearts
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-bg');
+                
+                // Random position and delay
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 5) + 's'; // 5 to 8 seconds
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                
+                // Random Color Tint (soft variations)
+                const hue = Math.floor(Math.random() * 50) + 330; // Pinks/Reds
+                heart.style.backgroundColor = `hsl(${hue}, 100%, 80%)`;
+                
+                container.appendChild(heart);
+            }
+        }
+
+        // Initialize Background
+        createHearts();
+
+        // 2. Modal Logic
+        function closeModal() {
+            const modal = document.getElementById('startModal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 500);
+            
+            // Play a soft sound if you wanted to add audio later
+            // var audio = new Audio('happy_birthday.mp3');
+            // audio.play();
+        }
+
+        // 3. Blow Candles Logic
+        let candlesBlown = false;
+
+        function blowCandles() {
+            if (candlesBlown) return; // Already blown
+
+            const flames = document.querySelectorAll('.flame');
+            const smokes = document.querySelectorAll('.smoke');
+
+            flames.forEach((flame, index) => {
+                // Animate flame shrinking
+                flame.style.transition = "opacity 0.5s ease";
+                flame.style.opacity = "0";
+            });
+
+            // Show smoke
+            setTimeout(() => {
+                smokes.forEach(smoke => {
+                    smoke.style.animation = "smokeRise 2s forwards";
+                });
+            }, 300);
+
+            // Change Text
+            document.querySelector('h1').innerText = "Make a Wish, Hafsa! 🌠";
+            candlesBlown = true;
+        }
+
+        // 4. Cut Cake Logic
+        let cakeCut = false;
+
+        function cutCake() {
+            if (cakeCut) return;
+
+            const knife = document.getElementById('knife');
+            const cakeTop = document.querySelector('.layer-top');
+            
+            // 1. Show and Move Knife
+            knife.style.opacity = "1";
+            knife.style.top = "50px"; // Move down
+            knife.style.right = "100px"; // Move horizontal slice
+
+            // 2. Animate Knife cutting action
+            setTimeout(() => {
+                knife.style.transform = "rotate(45deg) translateY(50px)";
+            }, 500);
+
+            // 3. Slide a piece of cake out (Visual trick)
+            setTimeout(() => {
+                // We physically move the whole top layer slightly to simulate a cut piece moving
+                // Or we apply a clip-path. For simplicity in CSS Art, we jiggle the cake.
+                
+                const layers = document.querySelectorAll('.layer');
+                layers.forEach(layer => {
+                   layer.style.transform = "translateX(-10px)"; 
+                });
+                
+                // Reset knife
+                knife.style.opacity = "0";
+                
+                // Celebration Confetti effect (Simple emoji burst)
+                celebrate();
+
+                document.querySelector('h1').innerText = "Yummy! Have a blast! 🍰";
+            }, 1500);
+            
+            cakeCut = true;
+        }
+
+        // Simple Emoji Confetti Burst
+        function celebrate() {
+            const emojis = ['🎉', '🍰', '🎈', '💖', '🎁'];
+            const container = document.body;
+            
+            for(let i=0; i<30; i++) {
+                const el = document.createElement('div');
+                el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                el.style.position = 'fixed';
+                el.style.left = '50%';
+                el.style.top = '50%';
+                el.style.fontSize = '2rem';
+                el.style.transform = `translate(-50%, -50%)`;
+                el.style.transition = 'all 1s ease-out';
+                el.style.zIndex = '100';
+                
+                // Random trajectory
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 300 + 50;
+                const x = Math.cos(angle) * dist;
+                const y = Math.sin(angle) * dist;
+                
+                container.appendChild(el);
+                
+                // Trigger animation
+                setTimeout(() => {
+                    el.style.transform = `translate(${x}px, ${y}px) scale(0)`;
+                    el.style.opacity = '0';
+                }, 10);
+
+                // Cleanup
+                setTimeout(() => {
+                    el.remove();
+                }, 1100);
+            }
+        }
+    </script>
+</body>
+</html>
